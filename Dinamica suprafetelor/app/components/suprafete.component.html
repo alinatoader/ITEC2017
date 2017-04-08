@@ -1,2 +1,20 @@
+
 <div id="chart_div">
 </div> 
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   <div id="chart_div">
+   </div> 
+
+   <ul>
+       <li *ngFor="let suprafata of suprafete">
+           <div>
+               {{suprafata["Judet"]}}
+               {{suprafata["Total area (ha)"]}}
+               <li *ngFor="let vanzare of vanzari">
+                   {{vanzare["TIP_PROPRIETATE"]}}
+               </li>
+           </div>
+       </li>
+   </ul>
+
