@@ -38,6 +38,18 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
                     console.error('An error occurred', error);
                     return Promise.reject(error.message || error);
                 }
+                /*incarcaBeneficiari():Promise<any>{
+                    return Promise.resolve(this.http.get(this.baseUrl+"search?resource_id=ff66bc6f-20b8-4e48-9a9f-2dad0bc6f456&fields=BENEFICIAR")
+                    .map(res=>res.json()).toPromise());
+                }*/
+                incarcaSuprafete() {
+                    return Promise.resolve(this.http.get(this.baseUrl + "search?resource_id=574e2bee-78c0-4805-b0c0-d4bfefcebed3")
+                        .map(res => res.json()).toPromise());
+                }
+                incarcaVanzari(judet) {
+                    return Promise.resolve(this.http.get(this.baseUrl + "search?resource_id=1290099e-bfb3-4ab4-9eaa-6e801120e407&q=" + judet)
+                        .map(res => res.json()).toPromise());
+                }
             };
             SuprafeteService = __decorate([
                 core_1.Injectable(),
