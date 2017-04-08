@@ -65,7 +65,7 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
                     data.addColumn('string', 'Tip suprafata');
                     data.addColumn('number', 'Total (ha)');
                     data.addRows([
-                        ['Urbal', SuprafeteComponent_1.urban],
+                        ['Urban', SuprafeteComponent_1.urban],
                         ['Rural', SuprafeteComponent_1.rural],
                     ]);
                     var options = { 'title': 'Dinamica suprafetelor in judetul ' + SuprafeteComponent_1.judet,

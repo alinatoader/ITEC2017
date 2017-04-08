@@ -64,7 +64,7 @@ export class SuprafeteComponent implements OnInit{
         data.addColumn('string', 'Tip suprafata');
         data.addColumn('number', 'Total (ha)');
         data.addRows([
-          ['Urbal', SuprafeteComponent.urban],
+          ['Urban', SuprafeteComponent.urban],
           ['Rural', SuprafeteComponent.rural],
         ]);
 
