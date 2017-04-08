@@ -19,6 +19,8 @@ export class VanzariComponent implements OnInit{
     private static neagricol:number;
     private static altele:number;
 
+    
+
     constructor(private suprafeteService:SuprafeteService){
         
     }
@@ -27,6 +29,7 @@ export class VanzariComponent implements OnInit{
         this.incarcaVanzari();
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(this.drawChart);
+        
      }
 
      incarcaVanzari(){
