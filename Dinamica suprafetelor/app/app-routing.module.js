@@ -25,8 +25,8 @@ System.register(["@angular/core", "@angular/router", "./not-found/not-found.comp
         ],
         execute: function () {
             exports_1("routes", routes = [
-                { path: '', redirectTo: 'landing', pathMatch: 'full' },
                 { path: 'suprafete', component: suprafete_component_1.SuprafeteComponent },
+                { path: '', redirectTo: 'suprafete', pathMatch: 'full' },
                 { path: '404', component: not_found_component_1.NotFoundComponent },
                 { path: '**', redirectTo: '/404' }
             ]);

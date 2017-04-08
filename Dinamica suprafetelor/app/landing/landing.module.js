@@ -1,4 +1,4 @@
-System.register(["@angular/core", "./landing-routing.module", "./landing.component"], function (exports_1, context_1) {
+System.register(["@angular/core", "./landing-routing.module", "./landing.component", "@angular/common", "@angular/forms"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,7 +7,7 @@ System.register(["@angular/core", "./landing-routing.module", "./landing.compone
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, landing_routing_module_1, landing_component_1, LandingModule;
+    var core_1, landing_routing_module_1, landing_component_1, common_1, forms_1, LandingModule;
     return {
         setters: [
             function (core_1_1) {
@@ -18,6 +18,12 @@ System.register(["@angular/core", "./landing-routing.module", "./landing.compone
             },
             function (landing_component_1_1) {
                 landing_component_1 = landing_component_1_1;
+            },
+            function (common_1_1) {
+                common_1 = common_1_1;
+            },
+            function (forms_1_1) {
+                forms_1 = forms_1_1;
             }
         ],
         execute: function () {
@@ -25,7 +31,7 @@ System.register(["@angular/core", "./landing-routing.module", "./landing.compone
             };
             LandingModule = __decorate([
                 core_1.NgModule({
-                    imports: [landing_routing_module_1.LandingRoutingModule],
+                    imports: [landing_routing_module_1.LandingRoutingModule, common_1.CommonModule, forms_1.FormsModule],
                     declarations: [landing_component_1.LandingComponent]
                 })
             ], LandingModule);

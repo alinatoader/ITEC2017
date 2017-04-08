@@ -1,4 +1,5 @@
 import {Component, OnInit}      from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
     moduleId: "landing-id", 
@@ -6,14 +7,13 @@ import {Component, OnInit}      from '@angular/core';
     templateUrl: 'app/landing/landing.component.html'
 })
 export class LandingComponent implements OnInit {
-
-    status = 'Loading landing page';
+    
  
-    constructor() {
-        this.status = "Landing page loaded";
+    constructor(private router:Router) {
     }
 
     ngOnInit() {
-        console.log("Landing on init callback");
     }
+
+   
 }

@@ -9,7 +9,9 @@ declare var google:any;
 })
 
 export class SuprafeteComponent implements OnInit{
-
+    private static judet:string;
+    private static urban:number;
+    private static rural:number;
     private suprafete:any = [];
     private vanzari:any = [];
 
@@ -17,6 +19,25 @@ export class SuprafeteComponent implements OnInit{
     constructor(private suprafeteService:SuprafeteService){
         
     }
+     ngOnInit() {
+        this.incarcaSuprafete();
+        this.incarcaVanzari("SUCEAVA");
+        // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+      
+      // Set a callback to run when the Google Visualization API is loaded.
+      
+    }
+
+    incarcaJudet(){
+        var jud=document.getElementById("judet").value;
+        this.suprafete.forEach(s=>{
+            if(s.Judet.toLowerCase()==jud.toLowerCase())
+                {this.incarcaDiagrama(s);
+                return;}
+        });
+    }
+
     incarcaSuprafete(){
         this.suprafeteService.incarcaSuprafete().then(suprafata=> {
                 this.suprafete=suprafata.result.records;
@@ -85,34 +106,39 @@ export class SuprafeteComponent implements OnInit{
                 element["Judet"]="VALCEA";       
         });
     }
-    ngOnInit() {
-        this.incarcaSuprafete();
-        this.incarcaVanzari("SUCEAVA");
-        console.log("Main page loaded..");
-    }
-
-     
+    
 
     incarcaDiagrama(inregistrare:any){
+           SuprafeteComponent.judet=inregistrare["Judet"];
+           var re=/,/gi;
+           var ur=inregistrare["Total urban (ha)"];
+           ur=ur.replace(re,'');
+           SuprafeteComponent.urban=Number(ur);
+           var ru=inregistrare["Total rural (ha)"];
+           ru=ru.replace(re,'');
+           SuprafeteComponent.rural=Number(ru);
+           google.charts.setOnLoadCallback(this.drawChart);
+     }
 
-            google.charts.load('current', {'packages':['corechart']});
-            google.charts.setOnLoadCallback(this.drawChart(inregistrare["Total urban (ha)"],inregistrare["Total rural (ha)"],inregistrare["Judet"]));
-      }
 
-      drawChart(urban:number,rural:number,judet:string) {
+    drawChart() {
+
+        // Create the data table.
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Tip suprafata');
         data.addColumn('number', 'Total (ha)');
         data.addRows([
-          ['Urban', urban],
-          ['Rural', rural],
+          ['Urbal', SuprafeteComponent.urban],
+          ['Rural', SuprafeteComponent.rural],
         ]);
 
-        var options = {'title':'Dinamica suprafetelor in judetul '+judet,
-                       'width':700,
-                       'height':600,}
+        // Set chart options
+        var options = {'title':'Dinamica suprafetelor in judetul '+SuprafeteComponent.judet,
+                       'width':400,
+                       'height':300};
 
+        // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
-      }
+}
 }

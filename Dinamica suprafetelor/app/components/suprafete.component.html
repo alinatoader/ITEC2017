@@ -1,3 +1,13 @@
+<div class="col-md-3 col-md-offset-4">
+<form name="form" >
+        <div class="form-group" >
+            <input type="text" class="form-control" name="judet" id="judet"  required/>
+        </div>
+        <div class="form-group">
+            <button (click)="incarcaJudet()">Cauta</button>           
+        </div>
+    </form>
+</div>
 
 <div id="chart_div">
 </div> 
@@ -6,15 +16,6 @@
    <div id="chart_div">
    </div> 
 
-   <ul>
-       <li *ngFor="let suprafata of suprafete">
-           <div>
-               {{suprafata["Judet"]}}
-               {{suprafata["Total area (ha)"]}}
-               <li *ngFor="let vanzare of vanzari">
-                   {{vanzare["TIP_PROPRIETATE"]}}
-               </li>
-           </div>
-       </li>
-   </ul>
+ 
+
 

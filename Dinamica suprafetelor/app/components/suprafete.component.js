@@ -10,7 +10,7 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, suprafete_service_1, SuprafeteComponent;
+    var core_1, suprafete_service_1, SuprafeteComponent, SuprafeteComponent_1;
     return {
         setters: [
             function (core_1_1) {
@@ -21,11 +21,27 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
             }
         ],
         execute: function () {
-            SuprafeteComponent = class SuprafeteComponent {
+            SuprafeteComponent = SuprafeteComponent_1 = class SuprafeteComponent {
                 constructor(suprafeteService) {
                     this.suprafeteService = suprafeteService;
                     this.suprafete = [];
                     this.vanzari = [];
+                }
+                ngOnInit() {
+                    this.incarcaSuprafete();
+                    this.incarcaVanzari("SUCEAVA");
+                    // Load the Visualization API and the corechart package.
+                    google.charts.load('current', { 'packages': ['corechart'] });
+                    // Set a callback to run when the Google Visualization API is loaded.
+                }
+                incarcaJudet() {
+                    var jud = document.getElementById("judet").value;
+                    this.suprafete.forEach(s => {
+                        if (s.Judet.toLowerCase() == jud.toLowerCase()) {
+                            this.incarcaDiagrama(s);
+                            return;
+                        }
+                    });
                 }
                 incarcaSuprafete() {
                     this.suprafeteService.incarcaSuprafete().then(suprafata => {
@@ -94,31 +110,36 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                             element["Judet"] = "VALCEA";
                     });
                 }
-                ngOnInit() {
-                    this.incarcaSuprafete();
-                    this.incarcaVanzari("SUCEAVA");
-                    console.log("Main page loaded..");
-                }
                 incarcaDiagrama(inregistrare) {
-                    google.charts.load('current', { 'packages': ['corechart'] });
-                    google.charts.setOnLoadCallback(this.drawChart(inregistrare["Total urban (ha)"], inregistrare["Total rural (ha)"], inregistrare["Judet"]));
+                    SuprafeteComponent_1.judet = inregistrare["Judet"];
+                    var re = /,/gi;
+                    var ur = inregistrare["Total urban (ha)"];
+                    ur = ur.replace(re, '');
+                    SuprafeteComponent_1.urban = Number(ur);
+                    var ru = inregistrare["Total rural (ha)"];
+                    ru = ru.replace(re, '');
+                    SuprafeteComponent_1.rural = Number(ru);
+                    google.charts.setOnLoadCallback(this.drawChart);
                 }
-                drawChart(urban, rural, judet) {
+                drawChart() {
+                    // Create the data table.
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Tip suprafata');
                     data.addColumn('number', 'Total (ha)');
                     data.addRows([
-                        ['Urban', urban],
-                        ['Rural', rural],
+                        ['Urbal', SuprafeteComponent_1.urban],
+                        ['Rural', SuprafeteComponent_1.rural],
                     ]);
-                    var options = { 'title': 'Dinamica suprafetelor in judetul ' + judet,
-                        'width': 700,
-                        'height': 600, };
+                    // Set chart options
+                    var options = { 'title': 'Dinamica suprafetelor in judetul ' + SuprafeteComponent_1.judet,
+                        'width': 400,
+                        'height': 300 };
+                    // Instantiate and draw our chart, passing in some options.
                     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
                     chart.draw(data, options);
                 }
             };
-            SuprafeteComponent = __decorate([
+            SuprafeteComponent = SuprafeteComponent_1 = __decorate([
                 core_1.Component({
                     templateUrl: 'app/components/suprafete.component.html',
                     providers: [suprafete_service_1.SuprafeteService]
