@@ -9,8 +9,10 @@ declare var google:any;
 })
 
 export class SuprafeteComponent implements OnInit{
+
     private suprafete:any = [];
     private vanzari:any = [];
+
     
     constructor(private suprafeteService:SuprafeteService){
         
@@ -36,12 +38,12 @@ export class SuprafeteComponent implements OnInit{
         this.incarcaSuprafete();
         this.incarcaVanzari("SUCEAVA");
         console.log("Main page loaded..");
-     
     }
 
      
 
     incarcaDiagrama(inregistrare:any){
+
             google.charts.load('current', {'packages':['corechart']});
             google.charts.setOnLoadCallback(this.drawChart(inregistrare["Total urban (ha)"],inregistrare["Total rural (ha)"],inregistrare["Judet"]));
       }

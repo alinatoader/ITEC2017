@@ -42,6 +42,7 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                     });
                 }
                 ngOnInit() {
+
                     this.incarcaSuprafete();
                     this.incarcaVanzari("SUCEAVA");
                     console.log("Main page loaded..");
