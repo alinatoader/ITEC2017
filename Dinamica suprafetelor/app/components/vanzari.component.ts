@@ -4,7 +4,7 @@ import {SuprafeteService} from '../services/suprafete.service';
 declare var google:any;
 
 @Component({
-    templateUrl: 'app/components/suprafete.component.html',
+    templateUrl: 'app/components/vanzari.component.html',
     providers:[SuprafeteService]
 })
 
@@ -44,16 +44,16 @@ export class VanzariComponent implements OnInit{
 
     incarcaTipuriVanzari(){
         this.vanzari.forEach(v=>{
-            if(v["TIP_PROPRIETATE"]=="agricol")
-                VanzariComponent.agricol=v["VANZARI"];
-            if(v["TIP_PROPRIETATE"]=="neagricol")
-                VanzariComponent.neagricol=v["VANZARI"];
-            if(v["TIP_PROPRIETATE"]=="fara constructii")
-                VanzariComponent.faraConstructii=v["VANZARI"];
-            if(v["TIP_PROPRIETATE"]=="constructii")
-                VanzariComponent.constructii=v["VANZARI"];
-            if(v["TIP_PROPRIETATE"]=="-")
-                VanzariComponent.altele=v["VANZARI"];
+            if(v["TIP_PROPRIETATE"].indexOf("agricol")>=0)
+                VanzariComponent.agricol=Number(v["VANZARI"]);
+            if(v["TIP_PROPRIETATE"].indexOf("neagricol")>=0)
+                VanzariComponent.neagricol=Number(v["VANZARI"]);
+            if(v["TIP_PROPRIETATE"].indexOf("fara constructii")>=0)
+                VanzariComponent.faraConstructii=Number(v["VANZARI"]);
+            if(v["TIP_PROPRIETATE"].indexOf("constructii")>=0)
+                VanzariComponent.constructii=Number(v["VANZARI"]);
+            if(v["TIP_PROPRIETATE"].indexOf("-")>=0)
+                VanzariComponent.altele=Number(v["VANZARI"]);
         })
     }
 
@@ -74,11 +74,11 @@ export class VanzariComponent implements OnInit{
 
         // Set chart options
         var options = {'title':'Dinamica vanzarilor de imobile in judetul '+VanzariComponent.judet,
-                       'width':700,
-                       'height':600};
+                       'width':800,
+                       'height':900};
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.PieChart(document.getElementById('chart_vanzari'));
         chart.draw(data, options);
     }
 }

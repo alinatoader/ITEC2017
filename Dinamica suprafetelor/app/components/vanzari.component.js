@@ -46,16 +46,16 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                 }
                 incarcaTipuriVanzari() {
                     this.vanzari.forEach(v => {
-                        if (v["TIP_PROPRIETATE"] == "agricol")
-                            VanzariComponent_1.agricol = v["VANZARI"];
-                        if (v["TIP_PROPRIETATE"] == "neagricol")
-                            VanzariComponent_1.neagricol = v["VANZARI"];
-                        if (v["TIP_PROPRIETATE"] == "fara constructii")
-                            VanzariComponent_1.faraConstructii = v["VANZARI"];
-                        if (v["TIP_PROPRIETATE"] == "constructii")
-                            VanzariComponent_1.constructii = v["VANZARI"];
-                        if (v["TIP_PROPRIETATE"] == "-")
-                            VanzariComponent_1.altele = v["VANZARI"];
+                        if (v["TIP_PROPRIETATE"].indexOf("agricol") >= 0)
+                            VanzariComponent_1.agricol = Number(v["VANZARI"]);
+                        if (v["TIP_PROPRIETATE"].indexOf("neagricol") >= 0)
+                            VanzariComponent_1.neagricol = Number(v["VANZARI"]);
+                        if (v["TIP_PROPRIETATE"].indexOf("fara constructii") >= 0)
+                            VanzariComponent_1.faraConstructii = Number(v["VANZARI"]);
+                        if (v["TIP_PROPRIETATE"].indexOf("constructii") >= 0)
+                            VanzariComponent_1.constructii = Number(v["VANZARI"]);
+                        if (v["TIP_PROPRIETATE"].indexOf("-") >= 0)
+                            VanzariComponent_1.altele = Number(v["VANZARI"]);
                     });
                 }
                 drawChart() {
@@ -73,16 +73,16 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                     ]);
                     // Set chart options
                     var options = { 'title': 'Dinamica vanzarilor de imobile in judetul ' + VanzariComponent_1.judet,
-                        'width': 700,
-                        'height': 600 };
+                        'width': 800,
+                        'height': 900 };
                     // Instantiate and draw our chart, passing in some options.
-                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_vanzari'));
                     chart.draw(data, options);
                 }
             };
             VanzariComponent = VanzariComponent_1 = __decorate([
                 core_1.Component({
-                    templateUrl: 'app/components/suprafete.component.html',
+                    templateUrl: 'app/components/vanzari.component.html',
                     providers: [suprafete_service_1.SuprafeteService]
                 }),
                 __metadata("design:paramtypes", [suprafete_service_1.SuprafeteService])

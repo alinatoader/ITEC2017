@@ -21,12 +21,13 @@ export class SuprafeteComponent implements OnInit{
     }
      ngOnInit() {
         this.incarcaSuprafete();
-      google.charts.load('current', {'packages':['corechart']});
+        google.charts.load('current', {'packages':['corechart']});
     }
 
     incarcaJudet(){
         var selectJudet=document.getElementById("selectJudet");
         var jud=selectJudet.options[selectJudet.selectedIndex].value;
+        localStorage.setItem("judetSelectat",jud);
         this.suprafete.forEach(s=>{
             if(s.Judet.toLowerCase()==jud.toLowerCase())
                 {this.incarcaDiagrama(s);
@@ -37,7 +38,7 @@ export class SuprafeteComponent implements OnInit{
     incarcaSuprafete(){
         this.suprafeteService.incarcaSuprafete().then(suprafata=> {
                 this.suprafete=suprafata.result.records;
-                this.editSuprafete();
+                this.editSuprafete();  
             }
         ).catch(error=>{
             console.log("Eroare la incarcare din API a suprafetelor");
@@ -68,8 +69,8 @@ export class SuprafeteComponent implements OnInit{
         ]);
 
         var options = {'title':'Dinamica suprafetelor in judetul '+SuprafeteComponent.judet,
-                       'width':700,
-                       'height':500};
+                       'width':900,
+                       'height':800};
 
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
