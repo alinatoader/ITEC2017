@@ -12,8 +12,8 @@ export class SuprafeteComponent implements OnInit{
     private static judet:string;
     private static urban:number;
     private static rural:number;
+
     private suprafete:any = [];
-    private vanzari:any = [];
 
     
     constructor(private suprafeteService:SuprafeteService){
@@ -21,16 +21,12 @@ export class SuprafeteComponent implements OnInit{
     }
      ngOnInit() {
         this.incarcaSuprafete();
-        this.incarcaVanzari("SUCEAVA");
-        // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
-      
-      // Set a callback to run when the Google Visualization API is loaded.
-      
     }
 
     incarcaJudet(){
-        var jud=document.getElementById("judet").value;
+        var selectJudet=document.getElementById("selectJudet");
+        var jud=selectJudet.options[selectJudet.selectedIndex].value;
         this.suprafete.forEach(s=>{
             if(s.Judet.toLowerCase()==jud.toLowerCase())
                 {this.incarcaDiagrama(s);
@@ -47,24 +43,48 @@ export class SuprafeteComponent implements OnInit{
             console.log("Eroare la incarcare din API a suprafetelor");
         })
     }
-    incarcaVanzari(judet:string){
-        if(judet=="CARAS-SEVERIN")
-            judet="CARAS?SEVERIN";
-        if(judet=="BISTRITA-NASAUD")
-            judet="BISTRITA?NASAUD";
-        this.suprafeteService.incarcaVanzari(judet).then(vanzari=>{
-            this.vanzari=vanzari.result.records;
-        }).catch(error=>{
-            console.log("Eroare la incarcare din API a vanzarilor ");
-        })
+        
+
+    incarcaDiagrama(inregistrare:any){
+           SuprafeteComponent.judet=inregistrare["Judet"];
+           var re=/,/gi;
+           var ur=inregistrare["Total urban (ha)"];
+           ur=ur.replace(re,'');
+           SuprafeteComponent.urban=Number(ur);
+           var ru=inregistrare["Total rural (ha)"];
+           ru=ru.replace(re,'');
+           SuprafeteComponent.rural=Number(ru);
+           google.charts.setOnLoadCallback(this.drawChart);
+     }
+
+
+    drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Tip suprafata');
+        data.addColumn('number', 'Total (ha)');
+        data.addRows([
+          ['Urbal', SuprafeteComponent.urban],
+          ['Rural', SuprafeteComponent.rural],
+        ]);
+
+        var options = {'title':'Dinamica suprafetelor in judetul '+SuprafeteComponent.judet,
+                       'width':700,
+                       'height':500};
+
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
     }
+
+    
     editSuprafete(){
         this.suprafete.forEach(element => {
-            if(element["Judet"] == "ARGE?")
+            if(element["No."].indexOf("TOTAL")>=0)
+                element["Judet"]="ROMANIA";
+            if(element["Judet"].indexOf("ARG")>=0)
                 element["Judet"]="ARGES";
-            if(element["Judet"] == "BAC?U")
+            if(element["Judet"].indexOf("BAC")>=0)
                 element["Judet"]="BACAU";
-            if(element["Judet"] == "BISTRI?A–N?S?UD")
+            if(element["Judet"].indexOf("BISTR")>=0)
                 element["Judet"]="BISTRITA-NASAUD";
             if(element["Judet"] == "BOTO?ANI")
                 element["Judet"] = "BOTOSANI";
@@ -76,20 +96,20 @@ export class SuprafeteComponent implements OnInit{
                 element["Judet"] = "BUCURESTI";  
             if(element["Judet"]=="BUZ?U")
                 element["Judet"] = "BUZAU";
-            if(element["Judet"]=="CARA?-SEVERIN")
-                element["Judet"]="CARAS-SEVERIN"
+            if(element["Judet"].indexOf("SEVERIN")>=0)
+                element["Judet"]="CARAS-SEVERIN";
             if(element["Judet"]=="C?L?RA?I")
-                element["Judet"]=="CALARASI"
+                element["Judet"]="CALARASI";
             if(element["Judet"]=="CONSTAN?A")
-                element["Judet"]=="CONSTANTA";
+                element["Judet"]="CONSTANTA";
             if(element["Judet"]=="DÂMBOVI?A")
-                element["Judet"]=="DAMBOVITA";
+                element["Judet"]="DAMBOVITA";
             if(element["Judet"]=="GALA?I")
-                element["Judet"]=="GALATI";
+                element["Judet"]="GALATI";
             if(element["Judet"]=="IA?I")
-                element["Judet"]=="IASI";
+                element["Judet"]="IASI";
             if(element["Judet"]=="IALOMI?A")
-                element["Judet"]=="IALOMITA";
+                element["Judet"]="IALOMITA";
             if(element["Judet"]=="MARAMURE?")
                 element["Judet"]="MARAMURES";
             if(element["Judet"]=="MEHEDIN?I")
@@ -106,40 +126,4 @@ export class SuprafeteComponent implements OnInit{
                 element["Judet"]="VALCEA";       
         });
     }
-    
-
-    incarcaDiagrama(inregistrare:any){
-           SuprafeteComponent.judet=inregistrare["Judet"];
-           localStorage.setItem("judetSelectat",inregistrare["Judet"]);
-           var re=/,/gi;
-           var ur=inregistrare["Total urban (ha)"];
-           ur=ur.replace(re,'');
-           SuprafeteComponent.urban=Number(ur);
-           var ru=inregistrare["Total rural (ha)"];
-           ru=ru.replace(re,'');
-           SuprafeteComponent.rural=Number(ru);
-           google.charts.setOnLoadCallback(this.drawChart);
-     }
-
-
-    drawChart() {
-
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Tip suprafata');
-        data.addColumn('number', 'Total (ha)');
-        data.addRows([
-          ['Urbal', SuprafeteComponent.urban],
-          ['Rural', SuprafeteComponent.rural],
-        ]);
-
-        // Set chart options
-        var options = {'title':'Dinamica suprafetelor in judetul '+SuprafeteComponent.judet,
-                       'width':400,
-                       'height':300};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-}
 }

@@ -25,13 +25,10 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                 constructor(suprafeteService) {
                     this.suprafeteService = suprafeteService;
                     this.suprafete = [];
-                    this.vanzari = [];
                 }
                 ngOnInit() {
                     this.incarcaSuprafete();
-                    // Load the Visualization API and the corechart package.
                     google.charts.load('current', { 'packages': ['corechart'] });
-                    // Set a callback to run when the Google Visualization API is loaded.
                 }
                 incarcaJudet() {
                     var selectJudet = document.getElementById("selectJudet");
@@ -63,7 +60,6 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                     google.charts.setOnLoadCallback(this.drawChart);
                 }
                 drawChart() {
-                    // Create the data table.
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Tip suprafata');
                     data.addColumn('number', 'Total (ha)');
@@ -71,24 +67,11 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                         ['Urbal', SuprafeteComponent_1.urban],
                         ['Rural', SuprafeteComponent_1.rural],
                     ]);
-                    // Set chart options
                     var options = { 'title': 'Dinamica suprafetelor in judetul ' + SuprafeteComponent_1.judet,
                         'width': 700,
                         'height': 500 };
-                    // Instantiate and draw our chart, passing in some options.
                     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
                     chart.draw(data, options);
-                }
-                incarcaVanzari(judet) {
-                    if (judet == "CARAS-SEVERIN")
-                        judet = "CARAS?SEVERIN";
-                    if (judet == "BISTRITA-NASAUD")
-                        judet = "BISTRITA?NASAUD";
-                    this.suprafeteService.incarcaVanzari(judet).then(vanzari => {
-                        this.vanzari = vanzari.result.records;
-                    }).catch(error => {
-                        console.log("Eroare la incarcare din API a vanzarilor ");
-                    });
                 }
                 editSuprafete() {
                     this.suprafete.forEach(element => {
