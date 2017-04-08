@@ -5,3 +5,7 @@
 /.vs/ITEC2017/v15/Browse.VC.opendb
 /.vs/ITEC2017/v15/Browse.VC.db
 /.vs/ITEC2k17/v15/Browse.VC.db
+
+*slnx.sqlite
+*.sqlite-journal
+*.js

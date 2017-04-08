@@ -31,5 +31,8 @@ export class Service {
         return Promise.resolve(this.http.get(this.baseUrl + "search?resource_id=1290099e-bfb3-4ab4-9eaa-6e801120e407&q="+judet)
         .map(res=>res.json()).toPromise());
     }
-    
+    incarcaTrafic(judet:string,gen:string):Promise<any>{
+        return Promise.resolve(this.http.get(this.baseUrl + "search?resource_id=909a992d-9e27-4b79-8920-402bfdc4c5d7&q="+judet+" "+gen)
+        .map(res=>res.json()).toPromise());
+    }
 }
