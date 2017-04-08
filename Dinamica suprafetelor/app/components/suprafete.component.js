@@ -112,6 +112,7 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                 }
                 incarcaDiagrama(inregistrare) {
                     SuprafeteComponent_1.judet = inregistrare["Judet"];
+                    localStorage.setItem("judetSelectat", inregistrare["Judet"]);
                     var re = /,/gi;
                     var ur = inregistrare["Total urban (ha)"];
                     ur = ur.replace(re, '');

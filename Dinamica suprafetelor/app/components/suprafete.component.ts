@@ -110,6 +110,7 @@ export class SuprafeteComponent implements OnInit{
 
     incarcaDiagrama(inregistrare:any){
            SuprafeteComponent.judet=inregistrare["Judet"];
+           localStorage.setItem("judetSelectat",inregistrare["Judet"]);
            var re=/,/gi;
            var ur=inregistrare["Total urban (ha)"];
            ur=ur.replace(re,'');
