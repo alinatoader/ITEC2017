@@ -1,12 +1,16 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="./suprafete.component.css">
+
+</head>
+<body>
 <div class="col-md-3 col-md-offset-4">
-<form name="form" >
-        <div class="form-group" >
-            <input type="text" class="form-control" name="judet" id="judet"  required/>
-        </div>
-        <div class="form-group">
-            <button (click)="incarcaJudet()">Cauta</button>           
-        </div>
-    </form>
+
+<select (change)="incarcaJudet()"  id="selectJudet">
+    <br>
+    <option  *ngFor="let judet of suprafete" id={{judet._id}} >
+        {{judet.Judet}}
+    </option>
+</select>
 </div>
 
 <div id="chart_div">
@@ -15,7 +19,7 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
    <div id="chart_div">
    </div> 
-
+</body>
  
 
 
