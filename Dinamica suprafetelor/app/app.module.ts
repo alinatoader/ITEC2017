@@ -6,9 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { LandingModule } from './landing/landing.module';
 import { RouterModule } from '@angular/router';
 import { NotFoundModule } from './not-found/not-found.module'
-import { CheltuieliModule} from './modules/cheltuieli.module';
+import { SuprafeteModule} from './modules/suprafete.module';
 @NgModule({
-    imports: [BrowserModule, HttpModule, AppRoutingModule, LandingModule, NotFoundModule,CheltuieliModule],
+    imports: [BrowserModule, HttpModule, AppRoutingModule, LandingModule, NotFoundModule,SuprafeteModule],
     declarations: [AppComponent],
     bootstrap: [AppComponent]
 })
