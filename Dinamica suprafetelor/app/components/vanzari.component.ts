@@ -1,11 +1,11 @@
 import {Component, OnInit}      from '@angular/core';
-import {SuprafeteService} from '../services/suprafete.service';
+import {Service} from '../services/service';
 
 declare var google:any;
 
 @Component({
     templateUrl: 'app/components/vanzari.component.html',
-    providers:[SuprafeteService]
+    providers:[Service]
 })
 
 export class VanzariComponent implements OnInit{
@@ -19,9 +19,7 @@ export class VanzariComponent implements OnInit{
     private static neagricol:number;
     private static altele:number;
 
-    
-
-    constructor(private suprafeteService:SuprafeteService){
+    constructor(private service:Service){
         
     }
      ngOnInit() {
@@ -29,7 +27,6 @@ export class VanzariComponent implements OnInit{
         this.incarcaVanzari();
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(this.drawChart);
-        
      }
 
      incarcaVanzari(){
@@ -37,7 +34,7 @@ export class VanzariComponent implements OnInit{
             VanzariComponent.judet="CARAS?SEVERIN";
         if(VanzariComponent.judet=="BISTRITA-NASAUD")
             VanzariComponent.judet="BISTRITA?NASAUD";
-        this.suprafeteService.incarcaVanzari(VanzariComponent.judet).then(vanzari=>{
+        this.service.incarcaVanzari(VanzariComponent.judet).then(vanzari=>{
             this.vanzari=vanzari.result.records;
             this.incarcaTipuriVanzari();
         }).catch(error=>{
