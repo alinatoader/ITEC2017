@@ -9,15 +9,39 @@ declare var google:any;
 })
 
 export class SuprafeteComponent implements OnInit{
+    private suprafete:any = [];
+    private vanzari:any = [];
     
     constructor(private suprafeteService:SuprafeteService){
         
     }
+    incarcaSuprafete(){
+        this.suprafeteService.incarcaSuprafete().then(suprafata=> {
+                this.suprafete=suprafata.result.records;
+                
+            }
+        ).catch(error=>{
+            console.log("Eroare la incarcare din API a suprafetelor");
+        })
+    }
+    incarcaVanzari(judet:string){
+        this.suprafeteService.incarcaVanzari(judet).then(vanzari=>{
+            this.vanzari=vanzari.result.records;
+        }).catch(error=>{
+            console.log("Eroare la incarcare din API a vanzarilor ");
+        })
+    }
     
     ngOnInit() {
+        this.incarcaSuprafete();
+        this.incarcaVanzari("SUCEAVA");
+        console.log("Main page loaded..");
+     
     }
 
-      incarcaDiagrama(inregistrare:any){
+     
+
+    incarcaDiagrama(inregistrare:any){
             google.charts.load('current', {'packages':['corechart']});
             google.charts.setOnLoadCallback(this.drawChart(inregistrare["Total urban (ha)"],inregistrare["Total rural (ha)"],inregistrare["Judet"]));
       }
