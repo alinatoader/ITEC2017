@@ -1,4 +1,4 @@
-System.register(["@angular/core", "@angular/router", "./not-found/not-found.component", "./components/suprafete.component"], function (exports_1, context_1) {
+System.register(["@angular/core", "@angular/router", "./not-found/not-found.component", "./components/suprafete.component", "./components/vanzari.component"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7,7 +7,7 @@ System.register(["@angular/core", "@angular/router", "./not-found/not-found.comp
         return c > 3 && r && Object.defineProperty(target, key, r), r;
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, router_1, not_found_component_1, suprafete_component_1, routes, AppRoutingModule;
+    var core_1, router_1, not_found_component_1, suprafete_component_1, vanzari_component_1, routes, AppRoutingModule;
     return {
         setters: [
             function (core_1_1) {
@@ -21,12 +21,16 @@ System.register(["@angular/core", "@angular/router", "./not-found/not-found.comp
             },
             function (suprafete_component_1_1) {
                 suprafete_component_1 = suprafete_component_1_1;
+            },
+            function (vanzari_component_1_1) {
+                vanzari_component_1 = vanzari_component_1_1;
             }
         ],
         execute: function () {
             exports_1("routes", routes = [
                 { path: 'suprafete', component: suprafete_component_1.SuprafeteComponent },
                 { path: '', redirectTo: 'suprafete', pathMatch: 'full' },
+                { path: 'vanzari', component: vanzari_component_1.VanzariComponent },
                 { path: '404', component: not_found_component_1.NotFoundComponent },
                 { path: '**', redirectTo: '/404' }
             ]);

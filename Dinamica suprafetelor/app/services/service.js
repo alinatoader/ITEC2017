@@ -10,7 +10,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, http_1, SuprafeteService;
+    var core_1, http_1, Service;
     return {
         setters: [
             function (core_1_1) {
@@ -23,7 +23,7 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
             }
         ],
         execute: function () {
-            SuprafeteService = class SuprafeteService {
+            Service = class Service {
                 constructor(http) {
                     this.http = http;
                     this.baseUrl = 'http://data.gov.ro/api/action/datastore_';
@@ -38,10 +38,6 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
                     console.error('An error occurred', error);
                     return Promise.reject(error.message || error);
                 }
-                /*incarcaBeneficiari():Promise<any>{
-                    return Promise.resolve(this.http.get(this.baseUrl+"search?resource_id=ff66bc6f-20b8-4e48-9a9f-2dad0bc6f456&fields=BENEFICIAR")
-                    .map(res=>res.json()).toPromise());
-                }*/
                 incarcaSuprafete() {
                     return Promise.resolve(this.http.get(this.baseUrl + "search?resource_id=574e2bee-78c0-4805-b0c0-d4bfefcebed3")
                         .map(res => res.json()).toPromise());
@@ -51,12 +47,12 @@ System.register(["@angular/core", "@angular/http", "rxjs/Rx"], function (exports
                         .map(res => res.json()).toPromise());
                 }
             };
-            SuprafeteService = __decorate([
+            Service = __decorate([
                 core_1.Injectable(),
                 __metadata("design:paramtypes", [http_1.Http])
-            ], SuprafeteService);
-            exports_1("SuprafeteService", SuprafeteService);
+            ], Service);
+            exports_1("Service", Service);
         }
     };
 });
-//# sourceMappingURL=suprafete.service.js.map
+//# sourceMappingURL=service.js.map

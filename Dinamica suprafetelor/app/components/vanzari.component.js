@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../services/suprafete.service"], function (exports_1, context_1) {
+System.register(["@angular/core", "../services/service"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,20 +10,20 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, suprafete_service_1, VanzariComponent, VanzariComponent_1;
+    var core_1, service_1, VanzariComponent, VanzariComponent_1;
     return {
         setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (suprafete_service_1_1) {
-                suprafete_service_1 = suprafete_service_1_1;
+            function (service_1_1) {
+                service_1 = service_1_1;
             }
         ],
         execute: function () {
             VanzariComponent = VanzariComponent_1 = class VanzariComponent {
-                constructor(suprafeteService) {
-                    this.suprafeteService = suprafeteService;
+                constructor(service) {
+                    this.service = service;
                     this.vanzari = [];
                 }
                 ngOnInit() {
@@ -37,7 +37,7 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                         VanzariComponent_1.judet = "CARAS?SEVERIN";
                     if (VanzariComponent_1.judet == "BISTRITA-NASAUD")
                         VanzariComponent_1.judet = "BISTRITA?NASAUD";
-                    this.suprafeteService.incarcaVanzari(VanzariComponent_1.judet).then(vanzari => {
+                    this.service.incarcaVanzari(VanzariComponent_1.judet).then(vanzari => {
                         this.vanzari = vanzari.result.records;
                         this.incarcaTipuriVanzari();
                     }).catch(error => {
@@ -46,16 +46,16 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                 }
                 incarcaTipuriVanzari() {
                     this.vanzari.forEach(v => {
-                        if (v["TIP_PROPRIETATE"] == "agricol")
-                            VanzariComponent_1.agricol = v["VANZARI"];
-                        if (v["TIP_PROPRIETATE"] == "neagricol")
-                            VanzariComponent_1.neagricol = v["VANZARI"];
-                        if (v["TIP_PROPRIETATE"] == "fara constructii")
-                            VanzariComponent_1.faraConstructii = v["VANZARI"];
-                        if (v["TIP_PROPRIETATE"] == "constructii")
-                            VanzariComponent_1.constructii = v["VANZARI"];
-                        if (v["TIP_PROPRIETATE"] == "-")
-                            VanzariComponent_1.altele = v["VANZARI"];
+                        if (v["TIP_PROPRIETATE"].indexOf("agricol") >= 0)
+                            VanzariComponent_1.agricol = Number(v["VANZARI"]);
+                        if (v["TIP_PROPRIETATE"].indexOf("neagricol") >= 0)
+                            VanzariComponent_1.neagricol = Number(v["VANZARI"]);
+                        if (v["TIP_PROPRIETATE"].indexOf("fara constructii") >= 0)
+                            VanzariComponent_1.faraConstructii = Number(v["VANZARI"]);
+                        if (v["TIP_PROPRIETATE"].indexOf("constructii") >= 0)
+                            VanzariComponent_1.constructii = Number(v["VANZARI"]);
+                        if (v["TIP_PROPRIETATE"].indexOf("-") >= 0)
+                            VanzariComponent_1.altele = Number(v["VANZARI"]);
                     });
                 }
                 drawChart() {
@@ -73,19 +73,19 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                     ]);
                     // Set chart options
                     var options = { 'title': 'Dinamica vanzarilor de imobile in judetul ' + VanzariComponent_1.judet,
-                        'width': 700,
-                        'height': 600 };
+                        'width': 800,
+                        'height': 900 };
                     // Instantiate and draw our chart, passing in some options.
-                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_vanzari'));
                     chart.draw(data, options);
                 }
             };
             VanzariComponent = VanzariComponent_1 = __decorate([
                 core_1.Component({
-                    templateUrl: 'app/components/suprafete.component.html',
-                    providers: [suprafete_service_1.SuprafeteService]
+                    templateUrl: 'app/components/vanzari.component.html',
+                    providers: [service_1.Service]
                 }),
-                __metadata("design:paramtypes", [suprafete_service_1.SuprafeteService])
+                __metadata("design:paramtypes", [service_1.Service])
             ], VanzariComponent);
             exports_1("VanzariComponent", VanzariComponent);
         }
