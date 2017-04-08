@@ -25,21 +25,71 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
                 constructor(service) {
                     this.service = service;
                     this.persoane = [];
+                    this.fem = true;
+                    this.mas = false;
                 }
                 ngOnInit() {
                     TraficComponent_1.judet = localStorage.getItem("judetSelectat");
+                    TraficComponent_1.gen = "feminin";
+                    this.incarcaPersoane("feminin");
+                    google.charts.load('current', { 'packages': ['corechart'] });
+                    google.charts.setOnLoadCallback(this.drawChart);
                 }
                 incarcaPersoane(gen) {
                     this.service.incarcaTrafic(TraficComponent_1.judet, gen).then(persoana => {
                         this.persoane = persoana.result.records;
+                        this.initiateUrbanRural();
                     }).catch(error => {
                         console.log("Eroare la incarcare din API a persoanelor traficate");
                     });
                 }
+                initiateUrbanRural() {
+                    TraficComponent_1.urban = 0;
+                    TraficComponent_1.rural = 0;
+                    this.persoane.forEach(pers => {
+                        if (pers["mediu_prov"].indexOf("rural") >= 0)
+                            TraficComponent_1.rural = TraficComponent_1.rural + 1;
+                        else
+                            TraficComponent_1.urban = TraficComponent_1.urban + 1;
+                    });
+                    google.charts.setOnLoadCallback(this.drawChart);
+                }
+                getGender() {
+                    console.log(this.fem);
+                    console.log(this.mas);
+                    if (this.mas == true) {
+                        this.fem = false;
+                        this.incarcaPersoane("masculin");
+                        TraficComponent_1.gen = "masculin";
+                        return;
+                    }
+                    if (this.fem == true) {
+                        this.incarcaPersoane("feminin");
+                        TraficComponent_1.gen = "feminin";
+                        this.mas = false;
+                        return;
+                    }
+                }
+                drawChart() {
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Mediu provenienta');
+                    data.addColumn('number', 'Persoane traficate');
+                    data.addRows([
+                        ['Urban', TraficComponent_1.urban],
+                        ['Rural', TraficComponent_1.rural],
+                    ]);
+                    // Set chart options
+                    var options = { 'title': 'Traficul de persoane in ' + TraficComponent_1.judet + ' genul ' + TraficComponent_1.gen,
+                        'width': 800,
+                        'height': 900 };
+                    // Instantiate and draw our chart, passing in some options.
+                    var chart = new google.visualization.PieChart(document.getElementById('chart_trafic'));
+                    chart.draw(data, options);
+                }
             };
             TraficComponent = TraficComponent_1 = __decorate([
                 core_1.Component({
-                    templateUrl: 'app/components/vanzari.component.html',
+                    templateUrl: 'app/components/trafic.component.html',
                     providers: [service_1.Service]
                 }),
                 __metadata("design:paramtypes", [service_1.Service])

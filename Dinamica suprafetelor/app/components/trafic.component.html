@@ -1,0 +1,15 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="./suprafete.component.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+
+    <div>
+        <input [(ngModel)]="fem" type="checkbox" (change)="getGender()" >Feminin<br>
+        <input [(ngModel)]="mas" type="checkbox" (change)="getGender()" >Masculin
+    </div>
+    
+
+    <div id="chart_trafic">
+    </div> 
+</body>
