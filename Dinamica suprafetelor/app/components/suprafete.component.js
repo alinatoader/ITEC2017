@@ -29,13 +29,13 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                 }
                 ngOnInit() {
                     this.incarcaSuprafete();
-                    this.incarcaVanzari("SUCEAVA");
                     // Load the Visualization API and the corechart package.
                     google.charts.load('current', { 'packages': ['corechart'] });
                     // Set a callback to run when the Google Visualization API is loaded.
                 }
                 incarcaJudet() {
-                    var jud = document.getElementById("judet").value;
+                    var selectJudet = document.getElementById("selectJudet");
+                    var jud = selectJudet.options[selectJudet.selectedIndex].value;
                     this.suprafete.forEach(s => {
                         if (s.Judet.toLowerCase() == jud.toLowerCase()) {
                             this.incarcaDiagrama(s);
@@ -49,65 +49,6 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                         this.editSuprafete();
                     }).catch(error => {
                         console.log("Eroare la incarcare din API a suprafetelor");
-                    });
-                }
-                incarcaVanzari(judet) {
-                    if (judet == "CARAS-SEVERIN")
-                        judet = "CARAS?SEVERIN";
-                    if (judet == "BISTRITA-NASAUD")
-                        judet = "BISTRITA?NASAUD";
-                    this.suprafeteService.incarcaVanzari(judet).then(vanzari => {
-                        this.vanzari = vanzari.result.records;
-                    }).catch(error => {
-                        console.log("Eroare la incarcare din API a vanzarilor ");
-                    });
-                }
-                editSuprafete() {
-                    this.suprafete.forEach(element => {
-                        if (element["Judet"] == "ARGE?")
-                            element["Judet"] = "ARGES";
-                        if (element["Judet"] == "BAC?U")
-                            element["Judet"] = "BACAU";
-                        if (element["Judet"] == "BISTRI?A–N?S?UD")
-                            element["Judet"] = "BISTRITA-NASAUD";
-                        if (element["Judet"] == "BOTO?ANI")
-                            element["Judet"] = "BOTOSANI";
-                        if (element["Judet"] == "BRA?OV")
-                            element["Judet"] = "BRASOV";
-                        if (element["Judet"] == "BR?ILA")
-                            element["Judet"] = "BRAILA";
-                        if (element["Judet"] == "BUCURE?TI")
-                            element["Judet"] = "BUCURESTI";
-                        if (element["Judet"] == "BUZ?U")
-                            element["Judet"] = "BUZAU";
-                        if (element["Judet"] == "CARA?-SEVERIN")
-                            element["Judet"] = "CARAS-SEVERIN";
-                        if (element["Judet"] == "C?L?RA?I")
-                            element["Judet"] == "CALARASI";
-                        if (element["Judet"] == "CONSTAN?A")
-                            element["Judet"] == "CONSTANTA";
-                        if (element["Judet"] == "DÂMBOVI?A")
-                            element["Judet"] == "DAMBOVITA";
-                        if (element["Judet"] == "GALA?I")
-                            element["Judet"] == "GALATI";
-                        if (element["Judet"] == "IA?I")
-                            element["Judet"] == "IASI";
-                        if (element["Judet"] == "IALOMI?A")
-                            element["Judet"] == "IALOMITA";
-                        if (element["Judet"] == "MARAMURE?")
-                            element["Judet"] = "MARAMURES";
-                        if (element["Judet"] == "MEHEDIN?I")
-                            element["Judet"] = "MEHEDINTI";
-                        if (element["Judet"] == "MURE?")
-                            element["Judet"] = "MURES";
-                        if (element["Judet"] == "NEAM?")
-                            element["Judet"] = "NEAMT";
-                        if (element["Judet"] == "S?LAJ")
-                            element["Judet"] = "SALAJ";
-                        if (element["Judet"] == "TIMI?")
-                            element["Judet"] = "TIMIS";
-                        if (element["Judet"] == "VÂLCEA")
-                            element["Judet"] = "VALCEA";
                     });
                 }
                 incarcaDiagrama(inregistrare) {
@@ -132,11 +73,72 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                     ]);
                     // Set chart options
                     var options = { 'title': 'Dinamica suprafetelor in judetul ' + SuprafeteComponent_1.judet,
-                        'width': 400,
-                        'height': 300 };
+                        'width': 700,
+                        'height': 500 };
                     // Instantiate and draw our chart, passing in some options.
                     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
                     chart.draw(data, options);
+                }
+                incarcaVanzari(judet) {
+                    if (judet == "CARAS-SEVERIN")
+                        judet = "CARAS?SEVERIN";
+                    if (judet == "BISTRITA-NASAUD")
+                        judet = "BISTRITA?NASAUD";
+                    this.suprafeteService.incarcaVanzari(judet).then(vanzari => {
+                        this.vanzari = vanzari.result.records;
+                    }).catch(error => {
+                        console.log("Eroare la incarcare din API a vanzarilor ");
+                    });
+                }
+                editSuprafete() {
+                    this.suprafete.forEach(element => {
+                        if (element["No."].indexOf("TOTAL") >= 0)
+                            element["Judet"] = "ROMANIA";
+                        if (element["Judet"].indexOf("ARG") >= 0)
+                            element["Judet"] = "ARGES";
+                        if (element["Judet"].indexOf("BAC") >= 0)
+                            element["Judet"] = "BACAU";
+                        if (element["Judet"].indexOf("BISTR") >= 0)
+                            element["Judet"] = "BISTRITA-NASAUD";
+                        if (element["Judet"] == "BOTO?ANI")
+                            element["Judet"] = "BOTOSANI";
+                        if (element["Judet"] == "BRA?OV")
+                            element["Judet"] = "BRASOV";
+                        if (element["Judet"] == "BR?ILA")
+                            element["Judet"] = "BRAILA";
+                        if (element["Judet"] == "BUCURE?TI")
+                            element["Judet"] = "BUCURESTI";
+                        if (element["Judet"] == "BUZ?U")
+                            element["Judet"] = "BUZAU";
+                        if (element["Judet"].indexOf("SEVERIN") >= 0)
+                            element["Judet"] = "CARAS-SEVERIN";
+                        if (element["Judet"] == "C?L?RA?I")
+                            element["Judet"] = "CALARASI";
+                        if (element["Judet"] == "CONSTAN?A")
+                            element["Judet"] = "CONSTANTA";
+                        if (element["Judet"] == "DÂMBOVI?A")
+                            element["Judet"] = "DAMBOVITA";
+                        if (element["Judet"] == "GALA?I")
+                            element["Judet"] = "GALATI";
+                        if (element["Judet"] == "IA?I")
+                            element["Judet"] = "IASI";
+                        if (element["Judet"] == "IALOMI?A")
+                            element["Judet"] = "IALOMITA";
+                        if (element["Judet"] == "MARAMURE?")
+                            element["Judet"] = "MARAMURES";
+                        if (element["Judet"] == "MEHEDIN?I")
+                            element["Judet"] = "MEHEDINTI";
+                        if (element["Judet"] == "MURE?")
+                            element["Judet"] = "MURES";
+                        if (element["Judet"] == "NEAM?")
+                            element["Judet"] = "NEAMT";
+                        if (element["Judet"] == "S?LAJ")
+                            element["Judet"] = "SALAJ";
+                        if (element["Judet"] == "TIMI?")
+                            element["Judet"] = "TIMIS";
+                        if (element["Judet"] == "VÂLCEA")
+                            element["Judet"] = "VALCEA";
+                    });
                 }
             };
             SuprafeteComponent = SuprafeteComponent_1 = __decorate([
