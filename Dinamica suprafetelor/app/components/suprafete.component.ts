@@ -1,11 +1,11 @@
 import {Component, OnInit}      from '@angular/core';
-import {SuprafeteService} from '../services/suprafete.service';
+import {Service} from '../services/service';
 
 declare var google:any;
 
 @Component({
     templateUrl: 'app/components/suprafete.component.html',
-    providers:[SuprafeteService]
+    providers:[Service]
 })
 
 export class SuprafeteComponent implements OnInit{
@@ -16,7 +16,7 @@ export class SuprafeteComponent implements OnInit{
     private suprafete:any = [];
 
     
-    constructor(private suprafeteService:SuprafeteService){
+    constructor(private suprafeteService:Service){
         
     }
      ngOnInit() {
