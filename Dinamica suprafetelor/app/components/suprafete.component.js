@@ -45,47 +45,22 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
                     this.incarcaSuprafete();
                     this.incarcaVanzari("SUCEAVA");
                     console.log("Main page loaded..");
-                    // Load the Visualization API and the corechart package.
-                    google.charts.load('current', { 'packages': ['corechart'] });
-                    // Set a callback to run when the Google Visualization API is loaded.
-                    google.charts.setOnLoadCallback(this.drawChart);
-                    //google.charts.load('current', {'packages':['geomap']});
-                    // google.charts.setOnLoadCallback(this.drawMap);
                 }
-                /*  drawMap() {
-                    var data = google.visualization.arrayToDataTable([
-                        ['Lat', 'Long', 'Name'],
-                        [44.426767, 26.102538, 'Bucharest'],
-                    ]);
-            
-                    var options = {};
-                    options['dataMode'] = 'regions';
-            
-                    var container = document.getElementById('regions_div');
-                    var geomap = new google.visualization.GeoMap(container);
-            
-                    geomap.draw(data, options);
-                  };*/
-                // Callback that creates and populates a data table,
-                // instantiates the pie chart, passes in the data and
-                // draws it.
-                drawChart() {
-                    // Create the data table.
+                incarcaDiagrama(inregistrare) {
+                    google.charts.load('current', { 'packages': ['corechart'] });
+                    google.charts.setOnLoadCallback(this.drawChart(inregistrare["Total urban (ha)"], inregistrare["Total rural (ha)"], inregistrare["Judet"]));
+                }
+                drawChart(urban, rural, judet) {
                     var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Topping');
-                    data.addColumn('number', 'Slices');
+                    data.addColumn('string', 'Tip suprafata');
+                    data.addColumn('number', 'Total (ha)');
                     data.addRows([
-                        ['Mushrooms', 3],
-                        ['Onions', 1],
-                        ['Olives', 1],
-                        ['Zucchini', 1],
-                        ['Pepperoni', 2]
+                        ['Urban', urban],
+                        ['Rural', rural],
                     ]);
-                    // Set chart options
-                    var options = { 'title': 'How Much Pizza I Ate Last Night',
-                        'width': 600,
-                        'height': 500 };
-                    // Instantiate and draw our chart, passing in some options.
+                    var options = { 'title': 'Dinamica suprafetelor in judetul ' + judet,
+                        'width': 700,
+                        'height': 600, };
                     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
                     chart.draw(data, options);
                 }
