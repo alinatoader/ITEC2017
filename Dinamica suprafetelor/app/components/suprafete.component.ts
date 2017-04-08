@@ -9,13 +9,32 @@ declare var google:any;
 })
 
 export class SuprafeteComponent implements OnInit{
-    //private cheltuieli:any = [];
+    private suprafete:any = [];
+    private vanzari:any = [];
     
     constructor(private suprafeteService:SuprafeteService){
         
     }
+    incarcaSuprafete(){
+        this.suprafeteService.incarcaSuprafete().then(suprafata=> {
+                this.suprafete=suprafata.result.records;
+                
+            }
+        ).catch(error=>{
+            console.log("Eroare la incarcare din API a suprafetelor");
+        })
+    }
+    incarcaVanzari(judet:string){
+        this.suprafeteService.incarcaVanzari(judet).then(vanzari=>{
+            this.vanzari=vanzari.result.records;
+        }).catch(error=>{
+            console.log("Eroare la incarcare din API a vanzarilor ");
+        })
+    }
     
     ngOnInit() {
+        this.incarcaSuprafete();
+        this.incarcaVanzari("SUCEAVA");
         console.log("Main page loaded..");
         // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});

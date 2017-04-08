@@ -22,11 +22,28 @@ System.register(["@angular/core", "../services/suprafete.service"], function (ex
         ],
         execute: function () {
             SuprafeteComponent = class SuprafeteComponent {
-                //private cheltuieli:any = [];
                 constructor(suprafeteService) {
                     this.suprafeteService = suprafeteService;
+                    this.suprafete = [];
+                    this.vanzari = [];
+                }
+                incarcaSuprafete() {
+                    this.suprafeteService.incarcaSuprafete().then(suprafata => {
+                        this.suprafete = suprafata.result.records;
+                    }).catch(error => {
+                        console.log("Eroare la incarcare din API a suprafetelor");
+                    });
+                }
+                incarcaVanzari(judet) {
+                    this.suprafeteService.incarcaVanzari(judet).then(vanzari => {
+                        this.vanzari = vanzari.result.records;
+                    }).catch(error => {
+                        console.log("Eroare la incarcare din API a vanzarilor ");
+                    });
                 }
                 ngOnInit() {
+                    this.incarcaSuprafete();
+                    this.incarcaVanzari("SUCEAVA");
                     console.log("Main page loaded..");
                     // Load the Visualization API and the corechart package.
                     google.charts.load('current', { 'packages': ['corechart'] });
