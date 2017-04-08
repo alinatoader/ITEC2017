@@ -8,7 +8,8 @@
 
 <select (change)="incarcaJudet()"  id="selectJudet">
     <br>
-    <option  *ngFor="let judet of suprafete" id={{judet._id}} selected>
+    <option style="display: none"></option>
+    <option  *ngFor="let judet of suprafete" id={{judet._id}}>
         {{judet.Judet}}
     </option>
 </select>
@@ -16,6 +17,9 @@
 
 <div id="chart_div">
 </div> 
+
+<div id="chart_ro">
+</div>
 
 </body>
  

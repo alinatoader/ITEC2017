@@ -1,6 +1,8 @@
 import {Component, OnInit}      from '@angular/core';
 import {Service} from '../services/service';
 
+
+//declare var google2:any;
 declare var google:any;
 
 @Component({
@@ -12,6 +14,7 @@ export class SuprafeteComponent implements OnInit{
     private static judet:string;
     private static urban:number;
     private static rural:number;
+    private static romania:any={};
 
     private suprafete:any = [];
 
@@ -22,6 +25,8 @@ export class SuprafeteComponent implements OnInit{
      ngOnInit() {
         this.incarcaSuprafete();
         google.charts.load('current', {'packages':['corechart']});
+       // google2.charts.load('current', {'packages':['corechart']});
+        SuprafeteComponent.judet=localStorage.getItem("judetSelectat");
     }
 
     incarcaJudet(){
@@ -70,17 +75,58 @@ export class SuprafeteComponent implements OnInit{
 
         var options = {'title':'Dinamica suprafetelor in judetul '+SuprafeteComponent.judet,
                        'width':900,
-                       'height':800};
+                       'height':800,
+                       'is3D': true,
+                       'pieStartAngle': 100,
+                       'slices': {  1: {offset: 0.1},},
+                       'animation': {
+                           duration: 1000,
+                           easing: 'out',
+                           startup: true
+      }
+                    };
 
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
     }
 
+  /*  drawROChart() {
+        var data = new google2.visualization.DataTable();
+        data.addColumn('string', 'Tip suprafata');
+        data.addColumn('number', 'Total (ha)');
+        data.addRows([
+          ['Urban', SuprafeteComponent.romania["Total urban (ha)"]],
+          ['Rural', SuprafeteComponent.romania["Total rural (ha)"]],
+        ]);
+
+        var options = {'title':'Dinamica suprafetelor in Romania',
+                       'width':900,
+                       'height':800,
+                       'is3D': true,
+                       'pieStartAngle': 100,
+                       'slices': {  1: {offset: 0.1},},
+                       'animation': {
+                           duration: 1000,
+                           easing: 'out',
+                           startup: true
+      }
+                    };
+
+        var chart = new google2.visualization.PieChart(document.getElementById('chart_ro'));
+        chart.draw(data, options);
+    }
+*/
     
     editSuprafete(){
         this.suprafete.forEach(element => {
             if(element["No."].indexOf("TOTAL")>=0)
-                element["Judet"]="ROMANIA";
+                {element["Judet"]="ROMANIA";
+                 SuprafeteComponent.romania=element;
+                 this.suprafete.pop(element);         
+                 console.log(SuprafeteComponent.romania);        
+                //google2.charts.setOnLoadCallback(this.drawROChart);
+                }
+        
             if(element["Judet"].indexOf("ARG")>=0)
                 element["Judet"]="ARGES";
             if(element["Judet"].indexOf("BAC")>=0)

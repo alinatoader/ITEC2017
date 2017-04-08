@@ -27,7 +27,8 @@ System.register(["@angular/core", "@angular/router"], function (exports_1, conte
                 }
                 ngOnInit() { }
                 redirect(data) {
-                    console.log(data);
+                    localStorage.setItem("judetSelectat", data);
+                    this.router.navigate(['suprafete']);
                 }
             };
             LandingComponent = __decorate([

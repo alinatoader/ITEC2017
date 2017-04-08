@@ -17,7 +17,8 @@ export class LandingComponent implements OnInit {
     ngOnInit() {}
 
     redirect(data:string){
-        console.log(data);
+        localStorage.setItem("judetSelectat",data);
+        this.router.navigate(['suprafete']);   
     }
    
 }

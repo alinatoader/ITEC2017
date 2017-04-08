@@ -29,6 +29,8 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
                 ngOnInit() {
                     this.incarcaSuprafete();
                     google.charts.load('current', { 'packages': ['corechart'] });
+                    // google2.charts.load('current', {'packages':['corechart']});
+                    SuprafeteComponent_1.judet = localStorage.getItem("judetSelectat");
                 }
                 incarcaJudet() {
                     var selectJudet = document.getElementById("selectJudet");
@@ -70,14 +72,54 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
                     ]);
                     var options = { 'title': 'Dinamica suprafetelor in judetul ' + SuprafeteComponent_1.judet,
                         'width': 900,
-                        'height': 800 };
+                        'height': 800,
+                        'is3D': true,
+                        'pieStartAngle': 100,
+                        'slices': { 1: { offset: 0.1 }, },
+                        'animation': {
+                            duration: 1000,
+                            easing: 'out',
+                            startup: true
+                        }
+                    };
                     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
                     chart.draw(data, options);
                 }
+                /*  drawROChart() {
+                      var data = new google2.visualization.DataTable();
+                      data.addColumn('string', 'Tip suprafata');
+                      data.addColumn('number', 'Total (ha)');
+                      data.addRows([
+                        ['Urban', SuprafeteComponent.romania["Total urban (ha)"]],
+                        ['Rural', SuprafeteComponent.romania["Total rural (ha)"]],
+                      ]);
+              
+                      var options = {'title':'Dinamica suprafetelor in Romania',
+                                     'width':900,
+                                     'height':800,
+                                     'is3D': true,
+                                     'pieStartAngle': 100,
+                                     'slices': {  1: {offset: 0.1},},
+                                     'animation': {
+                                         duration: 1000,
+                                         easing: 'out',
+                                         startup: true
+                    }
+                                  };
+              
+                      var chart = new google2.visualization.PieChart(document.getElementById('chart_ro'));
+                      chart.draw(data, options);
+                  }
+              */
                 editSuprafete() {
                     this.suprafete.forEach(element => {
-                        if (element["No."].indexOf("TOTAL") >= 0)
+                        if (element["No."].indexOf("TOTAL") >= 0) {
                             element["Judet"] = "ROMANIA";
+                            SuprafeteComponent_1.romania = element;
+                            this.suprafete.pop(element);
+                            console.log(SuprafeteComponent_1.romania);
+                            //google2.charts.setOnLoadCallback(this.drawROChart);
+                        }
                         if (element["Judet"].indexOf("ARG") >= 0)
                             element["Judet"] = "ARGES";
                         if (element["Judet"].indexOf("BAC") >= 0)
@@ -125,6 +167,7 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
                     });
                 }
             };
+            SuprafeteComponent.romania = {};
             SuprafeteComponent = SuprafeteComponent_1 = __decorate([
                 core_1.Component({
                     templateUrl: 'app/components/suprafete.component.html',
