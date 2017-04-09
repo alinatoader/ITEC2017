@@ -1,7 +1,13 @@
 <head>
-     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" type="text/css" href="./suprafete.component.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
-    <div id="chart_vanzari">
+    <div id="chart_vanzari" style="margin-left:20%;margin-right:20%">
     </div> 
+
+<div class="buttons">
+    <button (click)="incarcaSupr()">Vezi dinamica urban/rural</button>
+    <button (click)="incarcaCrim()">Vezi date de criminalitate</button>
+</div>
 </body>

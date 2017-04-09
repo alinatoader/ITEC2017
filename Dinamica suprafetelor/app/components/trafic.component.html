@@ -4,12 +4,17 @@
 </head>
 <body>
 
-    <div>
+    <div class="select" style="font-size: 25px">
         <input [(ngModel)]="fem" type="checkbox" (change)="getGender()" >Feminin<br>
         <input [(ngModel)]="mas" type="checkbox" (change)="getGender()" >Masculin
     </div>
     
 
-    <div id="chart_trafic">
+    <div id="chart_trafic" style="margin-left:20%;margin-right:20%">
     </div> 
+
+<div class="buttons">
+    <button (click)="incarcaSupr()">Vezi dinamica urban/rural</button>
+    <button (click)="incarcaVz()">Vezi dinamica vanzarilor de imobile</button>
+</div>
 </body>

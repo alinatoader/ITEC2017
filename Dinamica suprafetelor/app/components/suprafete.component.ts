@@ -1,8 +1,9 @@
 import {Component, OnInit}      from '@angular/core';
 import {Service} from '../services/service';
+import {VanzariComponent} from './vanzari.component';
+import {TraficComponent} from './trafic.component';
+import {Router} from '@angular/router';
 
-
-//declare var google2:any;
 declare var google:any;
 
 @Component({
@@ -16,16 +17,19 @@ export class SuprafeteComponent implements OnInit{
     private static rural:number;
     private static romania:any={};
 
+
+
     private suprafete:any = [];
 
     
-    constructor(private suprafeteService:Service){
+    constructor(private suprafeteService:Service,private router:Router){
         
     }
      ngOnInit() {
+         
         this.incarcaSuprafete();
         google.charts.load('current', {'packages':['corechart']});
-       // google2.charts.load('current', {'packages':['corechart']});
+        
         SuprafeteComponent.judet=localStorage.getItem("judetSelectat");
     }
 
@@ -44,6 +48,11 @@ export class SuprafeteComponent implements OnInit{
         this.suprafeteService.incarcaSuprafete().then(suprafata=> {
                 this.suprafete=suprafata.result.records;
                 this.editSuprafete();  
+                this.suprafete.forEach(s=>{
+                    if(s.Judet.toLowerCase()==SuprafeteComponent.judet.toLowerCase())
+                        {this.incarcaDiagrama(s);
+                        return;}
+        });
             }
         ).catch(error=>{
             console.log("Eroare la incarcare din API a suprafetelor");
@@ -73,8 +82,8 @@ export class SuprafeteComponent implements OnInit{
           ['Rural', SuprafeteComponent.rural],
         ]);
 
-        var options = {'title':'Dinamica suprafetelor in judetul '+SuprafeteComponent.judet,
-                       'width':900,
+        var options = {'title':'Dinamica suprafetelor in '+SuprafeteComponent.judet,
+                       'width':1000,
                        'height':800,
                        'is3D': true,
                        'pieStartAngle': 100,
@@ -90,41 +99,33 @@ export class SuprafeteComponent implements OnInit{
         chart.draw(data, options);
     }
 
-  /*  drawROChart() {
-        var data = new google2.visualization.DataTable();
-        data.addColumn('string', 'Tip suprafata');
-        data.addColumn('number', 'Total (ha)');
-        data.addRows([
-          ['Urban', SuprafeteComponent.romania["Total urban (ha)"]],
-          ['Rural', SuprafeteComponent.romania["Total rural (ha)"]],
-        ]);
 
-        var options = {'title':'Dinamica suprafetelor in Romania',
-                       'width':900,
-                       'height':800,
-                       'is3D': true,
-                       'pieStartAngle': 100,
-                       'slices': {  1: {offset: 0.1},},
-                       'animation': {
-                           duration: 1000,
-                           easing: 'out',
-                           startup: true
-      }
-                    };
-
-        var chart = new google2.visualization.PieChart(document.getElementById('chart_ro'));
-        chart.draw(data, options);
+    incarcaRO(){
+        SuprafeteComponent.judet="Romania";
+        this.suprafete.forEach(s=>{
+                    if(s.Judet.toLowerCase()==SuprafeteComponent.judet.toLowerCase())
+                        {this.incarcaDiagrama(s);
+                        return;}
+        });
     }
-*/
-    
+
+    incarcaSupr(){
+        this.router.navigate(['suprafete']);
+    }
+
+    incarcaVz(){
+        this.router.navigate(['vanzari']);
+    }
+
+    incarcaCrim(){
+       this.router.navigate(['trafic']);
+    }
+
     editSuprafete(){
         this.suprafete.forEach(element => {
             if(element["No."].indexOf("TOTAL")>=0)
                 {element["Judet"]="ROMANIA";
                  SuprafeteComponent.romania=element;
-                 this.suprafete.pop(element);         
-                 console.log(SuprafeteComponent.romania);        
-                //google2.charts.setOnLoadCallback(this.drawROChart);
                 }
         
             if(element["Judet"].indexOf("ARG")>=0)

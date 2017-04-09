@@ -1,4 +1,4 @@
-#chart_div{
+#chart_div,#chart_vanzari,#chart_trafic{
     margin-top: 30px;
     height: 700px;
     widows: 900px;
@@ -8,3 +8,40 @@
     margin-top:5px;
     position: fixed;
 }
+
+.select{
+    width: 150px;
+    margin-top: 5%;
+    margin-left: 5%;
+    position: absolute;
+}
+
+button{
+    width: 300px;
+    font-size: 20px;
+    background-color:lightcyan;
+    border: none;
+    color: black;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    margin: 10px;
+    border-style: ridge;
+    border-color: cyan;
+}
+
+button:hover{
+    background-color:lightblue;
+    font-size: 25px;
+    padding: 7px 33px;
+}
+
+.buttons{
+    width: 20%;
+    margin-right: 10%;
+    margin-top: 18%;
+    margin-left: 75%;
+    position: fixed;
+    
+}
+

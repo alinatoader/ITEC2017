@@ -4,23 +4,30 @@
 </head>
 <body>
 
-<div class="col-md-3 col-md-offset-4">
-
+<div  class="select" style="position: fixed;">
+<h3> Alege judet</h3>
+<hr>
 <select (change)="incarcaJudet()"  id="selectJudet">
-    <br>
     <option style="display: none"></option>
     <option  *ngFor="let judet of suprafete" id={{judet._id}}>
-        {{judet.Judet}}
+        <div *ngIf="judet._id!=43">
+            {{judet.Judet}}
+        </div>
     </option>
 </select>
 </div>
 
-<div id="chart_div">
+<div   id="chart_div" style="margin-left:20%;margin-right:20%">
 </div> 
 
-<div id="chart_ro">
-</div>
 
+
+<div class="buttons">
+    <button (click)="incarcaRO()">Diagrama Romaniei</button>
+    <button (click)="incarcaSupr()">Vezi dinamica urban/rural</button>
+    <button (click)="incarcaVz()">Vezi dinamica vanzarilor de imobile</button>
+    <button (click)="incarcaCrim()">Vezi date de criminalitate</button>
+</div>
 </body>
  
 

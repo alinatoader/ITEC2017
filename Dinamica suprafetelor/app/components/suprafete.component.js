@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../services/service"], function (exports_1, context_1) {
+System.register(["@angular/core", "../services/service", "@angular/router"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, service_1, SuprafeteComponent, SuprafeteComponent_1;
+    var core_1, service_1, router_1, SuprafeteComponent, SuprafeteComponent_1;
     return {
         setters: [
             function (core_1_1) {
@@ -18,18 +18,21 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
             },
             function (service_1_1) {
                 service_1 = service_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             }
         ],
         execute: function () {
             SuprafeteComponent = SuprafeteComponent_1 = class SuprafeteComponent {
-                constructor(suprafeteService) {
+                constructor(suprafeteService, router) {
                     this.suprafeteService = suprafeteService;
+                    this.router = router;
                     this.suprafete = [];
                 }
                 ngOnInit() {
                     this.incarcaSuprafete();
                     google.charts.load('current', { 'packages': ['corechart'] });
-                    // google2.charts.load('current', {'packages':['corechart']});
                     SuprafeteComponent_1.judet = localStorage.getItem("judetSelectat");
                 }
                 incarcaJudet() {
@@ -47,6 +50,12 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
                     this.suprafeteService.incarcaSuprafete().then(suprafata => {
                         this.suprafete = suprafata.result.records;
                         this.editSuprafete();
+                        this.suprafete.forEach(s => {
+                            if (s.Judet.toLowerCase() == SuprafeteComponent_1.judet.toLowerCase()) {
+                                this.incarcaDiagrama(s);
+                                return;
+                            }
+                        });
                     }).catch(error => {
                         console.log("Eroare la incarcare din API a suprafetelor");
                     });
@@ -70,8 +79,8 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
                         ['Urban', SuprafeteComponent_1.urban],
                         ['Rural', SuprafeteComponent_1.rural],
                     ]);
-                    var options = { 'title': 'Dinamica suprafetelor in judetul ' + SuprafeteComponent_1.judet,
-                        'width': 900,
+                    var options = { 'title': 'Dinamica suprafetelor in ' + SuprafeteComponent_1.judet,
+                        'width': 1000,
                         'height': 800,
                         'is3D': true,
                         'pieStartAngle': 100,
@@ -85,40 +94,29 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
                     var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
                     chart.draw(data, options);
                 }
-                /*  drawROChart() {
-                      var data = new google2.visualization.DataTable();
-                      data.addColumn('string', 'Tip suprafata');
-                      data.addColumn('number', 'Total (ha)');
-                      data.addRows([
-                        ['Urban', SuprafeteComponent.romania["Total urban (ha)"]],
-                        ['Rural', SuprafeteComponent.romania["Total rural (ha)"]],
-                      ]);
-              
-                      var options = {'title':'Dinamica suprafetelor in Romania',
-                                     'width':900,
-                                     'height':800,
-                                     'is3D': true,
-                                     'pieStartAngle': 100,
-                                     'slices': {  1: {offset: 0.1},},
-                                     'animation': {
-                                         duration: 1000,
-                                         easing: 'out',
-                                         startup: true
-                    }
-                                  };
-              
-                      var chart = new google2.visualization.PieChart(document.getElementById('chart_ro'));
-                      chart.draw(data, options);
-                  }
-              */
+                incarcaRO() {
+                    SuprafeteComponent_1.judet = "Romania";
+                    this.suprafete.forEach(s => {
+                        if (s.Judet.toLowerCase() == SuprafeteComponent_1.judet.toLowerCase()) {
+                            this.incarcaDiagrama(s);
+                            return;
+                        }
+                    });
+                }
+                incarcaSupr() {
+                    this.router.navigate(['suprafete']);
+                }
+                incarcaVz() {
+                    this.router.navigate(['vanzari']);
+                }
+                incarcaCrim() {
+                    this.router.navigate(['trafic']);
+                }
                 editSuprafete() {
                     this.suprafete.forEach(element => {
                         if (element["No."].indexOf("TOTAL") >= 0) {
                             element["Judet"] = "ROMANIA";
                             SuprafeteComponent_1.romania = element;
-                            this.suprafete.pop(element);
-                            console.log(SuprafeteComponent_1.romania);
-                            //google2.charts.setOnLoadCallback(this.drawROChart);
                         }
                         if (element["Judet"].indexOf("ARG") >= 0)
                             element["Judet"] = "ARGES";
@@ -173,7 +171,7 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
                     templateUrl: 'app/components/suprafete.component.html',
                     providers: [service_1.Service]
                 }),
-                __metadata("design:paramtypes", [service_1.Service])
+                __metadata("design:paramtypes", [service_1.Service, router_1.Router])
             ], SuprafeteComponent);
             exports_1("SuprafeteComponent", SuprafeteComponent);
         }

@@ -1,9 +1,11 @@
 import {Component, OnInit}      from '@angular/core';
 import {Service} from '../services/service';
+import {Router} from '@angular/router';
 
 declare var google:any;
 
 @Component({
+    selector:'vanzari',
     templateUrl: 'app/components/vanzari.component.html',
     providers:[Service]
 })
@@ -19,7 +21,7 @@ export class VanzariComponent implements OnInit{
     private static neagricol:number;
     private static altele:number;
 
-    constructor(private service:Service){
+    constructor(private service:Service,private router:Router){
         
     }
      ngOnInit() {
@@ -74,11 +76,26 @@ export class VanzariComponent implements OnInit{
 
         // Set chart options
         var options = {'title':'Dinamica vanzarilor de imobile in judetul '+VanzariComponent.judet,
-                       'width':800,
-                       'height':900};
+                       'width':1000,
+                       'height':800,
+                       'is3D': true,
+                       'pieStartAngle': 100,
+                       'slices': {  1: {offset: 0.1},},
+                       'animation': {
+                           duration: 1000,
+                           easing: 'out',
+                           startup: true}};
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_vanzari'));
         chart.draw(data, options);
+    }
+
+    incarcaSupr(){
+        this.router.navigate(['suprafete']);
+    }
+
+    incarcaCrim(){
+       this.router.navigate(['trafic']);
     }
 }

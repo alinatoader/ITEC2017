@@ -1,4 +1,4 @@
-System.register(["@angular/core", "../services/service"], function (exports_1, context_1) {
+System.register(["@angular/core", "../services/service", "@angular/router"], function (exports_1, context_1) {
     "use strict";
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -10,7 +10,7 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var __moduleName = context_1 && context_1.id;
-    var core_1, service_1, VanzariComponent, VanzariComponent_1;
+    var core_1, service_1, router_1, VanzariComponent, VanzariComponent_1;
     return {
         setters: [
             function (core_1_1) {
@@ -18,12 +18,16 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
             },
             function (service_1_1) {
                 service_1 = service_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             }
         ],
         execute: function () {
             VanzariComponent = VanzariComponent_1 = class VanzariComponent {
-                constructor(service) {
+                constructor(service, router) {
                     this.service = service;
+                    this.router = router;
                     this.vanzari = [];
                 }
                 ngOnInit() {
@@ -73,19 +77,34 @@ System.register(["@angular/core", "../services/service"], function (exports_1, c
                     ]);
                     // Set chart options
                     var options = { 'title': 'Dinamica vanzarilor de imobile in judetul ' + VanzariComponent_1.judet,
-                        'width': 800,
-                        'height': 900 };
+                        'width': 1000,
+                        'height': 800,
+                        'is3D': true,
+                        'pieStartAngle': 100,
+                        'slices': { 1: { offset: 0.1 }, },
+                        'animation': {
+                            duration: 1000,
+                            easing: 'out',
+                            startup: true
+                        } };
                     // Instantiate and draw our chart, passing in some options.
                     var chart = new google.visualization.PieChart(document.getElementById('chart_vanzari'));
                     chart.draw(data, options);
                 }
+                incarcaSupr() {
+                    this.router.navigate(['suprafete']);
+                }
+                incarcaCrim() {
+                    this.router.navigate(['trafic']);
+                }
             };
             VanzariComponent = VanzariComponent_1 = __decorate([
                 core_1.Component({
+                    selector: 'vanzari',
                     templateUrl: 'app/components/vanzari.component.html',
                     providers: [service_1.Service]
                 }),
-                __metadata("design:paramtypes", [service_1.Service])
+                __metadata("design:paramtypes", [service_1.Service, router_1.Router])
             ], VanzariComponent);
             exports_1("VanzariComponent", VanzariComponent);
         }
